@@ -362,7 +362,7 @@ switch ($command) {
 					if ($firstTime === false) {
 						if ($event === 'add' || $event === 'addDir' || $event === 'change') {
 							console.log('');
-							// console.log(chalkCommand($event) + ' ' + chalkAction($path));
+							console.log(chalkCommand($event) + ' ' + chalkAction($path));
 							if (checkExtension($path, 'scss')) {
 								buildCSS();
 							}
