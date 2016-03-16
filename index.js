@@ -369,11 +369,11 @@ switch ($command) {
 					ignored: /^\./,
 					persistent: true
 				});
-				watcher.on('change', function($event, $path) {
+				watcher.on('change', function($path) {
 					if ($building === false) {
 						$building = true;
 						console.log('');
-						console.log(chalkCommand($event) + ' ' + chalkAction($path));
+						console.log(chalkAction($path) + chalkCommand(' updated'));
 						if (checkExtension($path, 'scss')) {
 							buildCSS();
 						}
