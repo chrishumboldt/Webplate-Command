@@ -247,8 +247,8 @@ var readComponents = function($callback) {
 	if ($config.build) {
 		// Create read count
 		for (var $i = 0, $len = $config.build.length; $i < $len; $i++) {
-			if ($build.component) {
-				$readTotal = $readTotal + $build.component.length;
+			if ($config.build[$i].component) {
+				$readTotal = $readTotal + $config.build[$i].component.length;
 			}
 		}
 		console.log($readTotal);
