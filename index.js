@@ -155,7 +155,7 @@ var buildCSS = function() {
 	}
 };
 var buildEngine = function() {
-	console.log(chalkTitle('Starting to rebuild engine...'));
+	console.log(chalkTitle('Rebuilding the engine...'));
 	// Engine CSS
 	sass.render({
 		file: './engine/sass/styles.scss',
