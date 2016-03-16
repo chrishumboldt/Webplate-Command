@@ -399,7 +399,7 @@ switch ($command) {
 		console.log(chalkNumber('1)') + chalkCommand(' build'));
 		console.log(chalkText('Build your project CSS and Javascript.'));
 		console.log('');
-		console.log(chalkNumber('2)') + chalkCommand(' build ') + chalkOption('<css|js>'));
+		console.log(chalkNumber('2)') + chalkCommand(' build ') + chalkOption('<css|js|engine>'));
 		console.log(chalkText('Build your project CSS or Javascript.'));
 		console.log('');
 		console.log(chalkNumber('3)') + chalkCommand(' create ') + chalkOption('<project_name> <version|tag|optional>'));
