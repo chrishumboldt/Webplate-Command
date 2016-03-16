@@ -118,7 +118,6 @@ var buildCSS = function() {
 					}
 				}
 			}
-			console.log($project.sass);
 			for (var $i2 = 0, $len2 = $project.sass.length; $i2 < $len2; $i2++) {
 				var $data = fs.readFileSync($project.sass[$i2]).toString();
 				if ($project.sass[$i2] == ($path.engine.sass + 'import.scss')) {
@@ -133,24 +132,25 @@ var buildCSS = function() {
 					$fileData += $data;
 				}
 			}
-			console.log($fileData);
-			sass.render({
-				data: $fileData,
-				outputStyle: 'compressed'
-			}, function($error, $result) {
-				if ($error) {
-					console.log(chalkError($error.message));
-				} else {
-					var $css = $result.css.toString();
-					fs.writeFile($path.project.css + $build.name + '.min.css', $css, function($error) {
-						if ($error) {
-							console.log(chalkError($error));
-						} else {
-							console.log(chalkCommand('CSS: ') + chalkAction('project/' + $build.name + '.min.css...') + chalkCommand('successful'));
-						}
-					});
-				}
-			});
+			if ($fileData.length > 0) {
+				sass.render({
+					data: $fileData,
+					outputStyle: 'compressed'
+				}, function($error, $result) {
+					if ($error) {
+						console.log(chalkError($error.message));
+					} else {
+						var $css = $result.css.toString();
+						fs.writeFile($path.project.css + $build.name + '.min.css', $css, function($error) {
+							if ($error) {
+								console.log(chalkError($error));
+							} else {
+								console.log(chalkCommand('CSS: ') + chalkAction('project/' + $build.name + '.min.css...') + chalkCommand('successful'));
+							}
+						});
+					}
+				});
+			}
 		}
 	}
 };
@@ -253,7 +253,6 @@ var readComponents = function($callback) {
 				$readTotal = $readTotal + $config.build[$i].component.length;
 			}
 		}
-		console.log($readTotal);
 		// Read the component files
 		for (var $i = 0, $len = $config.build.length; $i < $len; $i++) {
 			var $build = $config.build[$i];
