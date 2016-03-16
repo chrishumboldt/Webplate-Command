@@ -373,7 +373,7 @@ switch ($command) {
 					if ($building === false) {
 						$building = true;
 						console.log('');
-						console.log(chalkAction($path) + chalkCommand(' updated'));
+						console.log(chalkAction($path) + chalkCommand('...updated'));
 						if (checkExtension($path, 'scss')) {
 							buildCSS();
 						}
