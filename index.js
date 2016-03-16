@@ -26,6 +26,7 @@ var uglify = require('uglify-js');
 
 // Variables
 var $arguments = process.argv.slice(2);
+var $building = false;
 var $command = $arguments[0];
 var $config;
 var $currentPath = process.cwd();
@@ -102,24 +103,6 @@ var chalkWarning = chalk.yellow;
 // Functions
 var buildCSS = function() {
 	console.log(chalkTitle('Starting your CSS build...'));
-	// Engine CSS
-	sass.render({
-		file: './engine/sass/styles.scss',
-		outputStyle: 'compressed'
-	}, function($error, $result) {
-		if ($error) {
-			console.log(chalkError($error.message));
-		} else {
-			var $css = $result.css.toString();
-			fs.writeFile($path.engine.css + 'styles.min.css', $css, function($error) {
-				if ($error) {
-					console.log(chalkError($error));
-				} else {
-					console.log(chalkCommand('CSS: ') + chalkAction('engine/styles.min.css...') + chalkCommand('successful'));
-				}
-			});
-		}
-	});
 	// Project CSS
 	if ($config.build) {
 		for (var $i = 0, $len = $config.build.length; $i < $len; $i++) {
@@ -169,8 +152,26 @@ var buildCSS = function() {
 		}
 	}
 };
-var buildJS = function() {
-	console.log(chalkTitle('Starting your JS build...'));
+var buildEngine = function() {
+	console.log(chalkTitle('Starting to rebuild engine...'));
+	// Engine CSS
+	sass.render({
+		file: './engine/sass/styles.scss',
+		outputStyle: 'compressed'
+	}, function($error, $result) {
+		if ($error) {
+			console.log(chalkError($error.message));
+		} else {
+			var $css = $result.css.toString();
+			fs.writeFile($path.engine.css + 'styles.min.css', $css, function($error) {
+				if ($error) {
+					console.log(chalkError($error));
+				} else {
+					console.log(chalkCommand('CSS: ') + chalkAction('engine/styles.min.css...') + chalkCommand('successful'));
+				}
+			});
+		}
+	});
 	// Engine scripts
 	var $engineScriptJS = uglify.minify($jsFilesEngineScripts, $optionsUglify);
 	fs.writeFile($path.engine.js + 'scripts.min.js', $engineScriptJS.code, function($error) {
@@ -198,6 +199,9 @@ var buildJS = function() {
 			console.log(chalkCommand('JS: ') + chalkAction('engine/touch.min.js...') + chalkCommand('successful'));
 		}
 	});
+};
+var buildJS = function() {
+	console.log(chalkTitle('Starting your JS build...'));
 	// Project scripts
 	if ($config.build) {
 		for (var $i = 0, $len = $config.build.length; $i < $len; $i++) {
@@ -291,6 +295,8 @@ switch ($command) {
 					buildCSS();
 				} else if ($arguments[1] === 'js') {
 					buildJS();
+				} else if ($arguments[1] === 'engine') {
+					buildEngine();
 				} else {
 					buildCSS();
 					buildJS();
@@ -352,28 +358,25 @@ switch ($command) {
 	case 'watch':
 		if (webplateDirCheck() === true) {
 			readComponents(function() {
-				var $firstTime = true;
-				console.log(chalkTitle('Watching your project...'));
+				console.log(chalkTitle('Watching your project SASS and JS...'));
 				var watcher = chokidar.watch($project.watch, {
 					ignored: /^\./,
 					persistent: true
 				});
-				watcher.on('all', function($event, $path) {
-					if ($firstTime === false) {
-						if ($event === 'add' || $event === 'addDir' || $event === 'change') {
-							console.log('');
-							console.log(chalkCommand($event) + ' ' + chalkAction($path));
-							if (checkExtension($path, 'scss')) {
-								buildCSS();
-							}
-							if (checkExtension($path, 'js')) {
-								buildJS();
-							}
+				watcher.on('change', function($event, $path) {
+					if ($building === false) {
+						$building = true;
+						console.log('');
+						console.log(chalkCommand($event) + ' ' + chalkAction($path));
+						if (checkExtension($path, 'scss')) {
+							buildCSS();
 						}
-					} else {
+						if (checkExtension($path, 'js')) {
+							buildJS();
+						}
 						setTimeout(function() {
-							$firstTime = false;
-						}, 1000);
+							$building = false;
+						}, 500);
 					}
 				});
 				// Livereload
