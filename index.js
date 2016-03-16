@@ -267,7 +267,7 @@ var readComponents = function($callback) {
 							var $bower = JSON.parse($data);
 							if (typeof $bower.main == 'object') {
 								for (var $i3 = 0, $len3 = $bower.main.length; $i3 < $len3; $i3++) {
-									var $includeFile = $path.project.component + $build.component[$i2] + '/' + $bower.main[$i3];
+									var $includeFile = $path.project.component + $bower.name + '/' + $bower.main[$i3];
 									if ($project.sass.indexOf($includeFile) == -1 || $project.js.indexOf($includeFile) == -1) {
 										if (checkExtension($includeFile, 'css') || checkExtension($includeFile, 'scss')) {
 											$project.sass.push($includeFile);
@@ -277,7 +277,7 @@ var readComponents = function($callback) {
 									}
 								}
 							} else {
-								var $includeFile = $path.project.component + $build.component[$i2] + '/' + $bower.main;
+								var $includeFile = $path.project.component + $bower.name + '/' + $bower.main;
 								if ($project.sass.indexOf($includeFile) == -1 || $project.js.indexOf($includeFile) == -1) {
 									if (checkExtension($includeFile, 'css') || checkExtension($includeFile, 'scss')) {
 										$project.sass.push($includeFile);
