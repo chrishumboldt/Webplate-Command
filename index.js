@@ -118,6 +118,7 @@ var buildCSS = function() {
 					}
 				}
 			}
+			console.log($project.sass);
 			for (var $i2 = 0, $len2 = $project.sass.length; $i2 < $len2; $i2++) {
 				var $data = fs.readFileSync($project.sass[$i2]).toString();
 				if ($project.sass[$i2] == ($path.engine.sass + 'import.scss')) {
@@ -132,6 +133,7 @@ var buildCSS = function() {
 					$fileData += $data;
 				}
 			}
+			console.log($fileData);
 			sass.render({
 				data: $fileData,
 				outputStyle: 'compressed'
