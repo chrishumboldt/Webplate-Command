@@ -248,17 +248,23 @@ var readComponents = function($callback) {
 						var $bower = JSON.parse($data);
 						if (typeof $bower.main == 'object') {
 							for (var $i3 = 0, $len3 = $bower.main.length; $i3 < $len3; $i3++) {
-								if (checkExtension($bower.main[$i3], 'css') || checkExtension($bower.main[$i3], 'scss')) {
-									$project.sass.push($path.project.component + $build.component[$i2] + '/' + $bower.main[$i3]);
-								} else if (checkExtension($bower.main[$i3], 'js')) {
-									$project.js.push($path.project.component + $build.component[$i2] + '/' + $bower.main[$i3]);
+								var $includeFile = $path.project.component + $build.component[$i2] + '/' + $bower.main[$i3];
+								if ($project.sass.indexOf($includeFile) == -1 || $project.js.indexOf($includeFile) == -1) {
+									if (checkExtension($includeFile, 'css') || checkExtension($includeFile, 'scss')) {
+										$project.sass.push($includeFile);
+									} else if (checkExtension($includeFile, 'js')) {
+										$project.js.push($includeFile);
+									}
 								}
 							}
 						} else {
-							if (checkExtension($bower.main, 'css') || checkExtension($bower.main, 'scss')) {
-								$$project.sass.push($path.project.component + $build.component[$i2] + '/' + $bower.main);
-							} else if (checkExtension($bower.main, 'js')) {
-								$project.js.push($path.project.component + $build.component[$i2] + '/' + $bower.main);
+							var $includeFile = $path.project.component + $build.component[$i2] + '/' + $bower.main;
+							if ($project.sass.indexOf($includeFile) == -1 || $project.js.indexOf($includeFile) == -1) {
+								if (checkExtension($includeFile, 'css') || checkExtension($includeFile, 'scss')) {
+									$$project.sass.push($includeFile);
+								} else if (checkExtension($includeFile, 'js')) {
+									$project.js.push($includeFile);
+								}
 							}
 						}
 					} catch ($error) {
