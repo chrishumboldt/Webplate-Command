@@ -221,7 +221,6 @@ var buildJS = function() {
 					}
 				}
 				if ($project.js.length > 0) {
-					console.log($project.js);
 					var $projectJS = uglify.minify($project.js, $optionsUglify);
 					fs.writeFile(path.join($path.project.js, $build.name + '.min.js'), $projectJS.code, function($error) {
 						if ($error) {
