@@ -244,44 +244,23 @@ var readConfig = function() {
 };
 var readComponents = function($callback) {
 	var $callback = (typeof $callback !== 'undefined') ? $callback : false;
-	var $readCount = 0;
-	var $readTotal = 0;
 
 	// Reset project styles and Javascript
 	$project.sass = [path.join($path.engine.sass, 'import.scss')];
 	$project.js = [];
 
 	if ($config.build) {
-		// Create read count
-		for (var $i = 0, $len = $config.build.length; $i < $len; $i++) {
-			if ($config.build[$i].component) {
-				$readTotal = $readTotal + $config.build[$i].component.length;
-			}
-		}
 		// Read the component files
 		for (var $i = 0, $len = $config.build.length; $i < $len; $i++) {
 			var $build = $config.build[$i];
 			if ($build.component) {
 				for (var $i2 = 0, $len2 = $build.component.length; $i2 < $len2; $i2++) {
-					fs.readFile(path.join($path.project.component, $build.component[$i2], '.bower.json'), function($error, $data) {
-						// The data
-						if ($error) {
-							console.log(chalkError($error));
-						} else {
-							var $bower = JSON.parse($data);
-							if (typeof $bower.main == 'object') {
-								for (var $i3 = 0, $len3 = $bower.main.length; $i3 < $len3; $i3++) {
-									var $includeFile = path.join($path.project.component, $bower.name, $bower.main[$i3]);
-									if ($project.sass.indexOf($includeFile) == -1 || $project.js.indexOf($includeFile) == -1) {
-										if (checkExtension($includeFile, 'css') || checkExtension($includeFile, 'scss')) {
-											$project.sass.push($includeFile);
-										} else if (checkExtension($includeFile, 'js')) {
-											$project.js.push($includeFile);
-										}
-									}
-								}
-							} else {
-								var $includeFile = path.join($path.project.component, $bower.name, $bower.main);
+					try {
+						var $data = fs.readFileSync(path.join($path.project.component, $build.component[$i2], '.bower.json'));
+						var $bower = JSON.parse($data);
+						if (typeof $bower.main == 'object') {
+							for (var $i3 = 0, $len3 = $bower.main.length; $i3 < $len3; $i3++) {
+								var $includeFile = path.join($path.project.component, $bower.name, $bower.main[$i3]);
 								if ($project.sass.indexOf($includeFile) == -1 || $project.js.indexOf($includeFile) == -1) {
 									if (checkExtension($includeFile, 'css') || checkExtension($includeFile, 'scss')) {
 										$project.sass.push($includeFile);
@@ -290,15 +269,24 @@ var readComponents = function($callback) {
 									}
 								}
 							}
+						} else {
+							var $includeFile = path.join($path.project.component, $bower.name, $bower.main);
+							if ($project.sass.indexOf($includeFile) == -1 || $project.js.indexOf($includeFile) == -1) {
+								if (checkExtension($includeFile, 'css') || checkExtension($includeFile, 'scss')) {
+									$project.sass.push($includeFile);
+								} else if (checkExtension($includeFile, 'js')) {
+									$project.js.push($includeFile);
+								}
+							}
 						}
-						// Callback
-						$readCount++;
-						if ($callback !== false && $readCount === $readTotal) {
-							$callback();
-						}
-					});
+					} catch ($error) {
+						console.log(chalkError($error));
+					}
 				}
 			}
+		}
+		if ($callback !== false) {
+			$callback();
 		}
 	}
 };
