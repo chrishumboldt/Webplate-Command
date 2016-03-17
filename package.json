@@ -1,37 +1,37 @@
 {
-	"name": "webplate-command",
-	"version": "0.0.14",
-	"description": "The Webplate command line utility.",
-	"main": "index.js",
-	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/chrishumboldt/webplate-command.git"
-	},
-	"keywords": [
+  "name": "webplate-command",
+  "version": "0.0.15",
+  "description": "The Webplate command line utility.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chrishumboldt/webplate-command.git"
+  },
+  "keywords": [
     "Webplate",
     "Command Line",
     "Build",
     "SASS",
     "JS"
   ],
-	"author": "Chris Humboldt (http://chrishumboldt.com)",
-	"license": "Apache-2.0",
-	"bugs": {
-		"url": "https://github.com/chrishumboldt/webplate-command/issues"
-	},
-	"homepage": "https://github.com/chrishumboldt/webplate-command#readme",
-	"bin": {
-		"webplate": "index.js"
-	},
-	"dependencies": {
-		"chalk": "^1.1.1",
-		"chokidar": "^1.4.3",
-		"livereload": "^0.4.1",
-		"node-sass": "^3.4.2",
-		"shelljs": "^0.6.0",
-		"uglify-js": "^2.6.2"
-	}
+  "author": "Chris Humboldt (http://chrishumboldt.com)",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/chrishumboldt/webplate-command/issues"
+  },
+  "homepage": "https://github.com/chrishumboldt/webplate-command#readme",
+  "bin": {
+    "webplate": "index.js"
+  },
+  "dependencies": {
+    "chalk": "^1.1.1",
+    "chokidar": "^1.4.3",
+    "livereload": "^0.4.1",
+    "node-sass": "^3.4.2",
+    "shelljs": "^0.6.0",
+    "uglify-js": "^2.6.2"
+  }
 }
