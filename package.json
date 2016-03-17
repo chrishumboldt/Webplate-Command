@@ -1,6 +1,6 @@
 {
   "name": "webplate-command",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "description": "The Webplate command line utility.",
   "main": "index.js",
   "scripts": {
