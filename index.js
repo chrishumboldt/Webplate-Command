@@ -47,19 +47,20 @@ var $optionsUglify = {
 };
 var $path = {
 	engine: {
-		root: path.join('.', 'engine'),
-		component: path.join('.', 'engine', 'component'),
-		css: path.join('.', 'engine', 'css'),
-		js: path.join('.', 'engine', 'js'),
-		jsSrc: path.join('.', 'engine', 'js', 'src'),
-		sass: path.join('.', 'engine', 'sass')
+		root: path.join('engine'),
+		component: path.join('engine', 'component'),
+		css: path.join('engine', 'css'),
+		js: path.join('engine', 'js'),
+		jsSrc: path.join('engine', 'js', 'src'),
+		sass: path.join('engine', 'sass')
 	},
 	project: {
-		root: path.join('.', 'project'),
-		component: path.join('.', 'project', 'component'),
-		css: path.join('.', 'project', 'css'),
-		js: path.join('.', 'project', 'js'),
-		sass: path.join('.', 'project', 'sass'),
+		root: path.join('project'),
+		component: path.join('project', 'component'),
+		css: path.join('project', 'css'),
+		js: path.join('project', 'js'),
+		jsSrc: path.join('project', 'js', 'src'),
+		sass: path.join('project', 'sass'),
 	}
 };
 
@@ -67,30 +68,30 @@ console.log($path);
 
 var $dirName = ($currentPath.indexOf('/') > -1) ? ($currentPath).substr($currentPath.lastIndexOf('/') + 1) : ($currentPath).substr($currentPath.lastIndexOf('\\') + 1);
 var $jsFilesEngineScripts = [
-    $path.engine.jsSrc + 'modernizr.js',
-    $path.engine.jsSrc + 'velocity.js',
-    $path.engine.component + 'buttonplate/js/buttonplate.js',
-    $path.engine.component + 'flickerplate/js/flickerplate.js',
-    $path.engine.component + 'formplate/js/formplate.js',
-    $path.engine.component + 'injectplate/js/injectplate.js',
-    $path.engine.component + 'loaderplate/js/loaderplate.js',
-    $path.engine.component + 'menuplate/js/menuplate.js',
-    $path.engine.component + 'messageplate/js/messageplate.js',
-    $path.engine.component + 'modalplate/js/modalplate.js',
-    $path.engine.component + 'tabplate/js/tabplate.js',
-    $path.engine.jsSrc + 'tools.js',
-    $path.engine.jsSrc + 'overwrite.js'
+    path.join($path.engine.jsSrc, 'modernizr.js'),
+    path.join($path.engine.jsSrc, 'velocity.js'),
+    path.join($path.engine.component, 'buttonplate/js/buttonplate.js'),
+    path.join($path.engine.component, 'flickerplate/js/flickerplate.js'),
+    path.join($path.engine.component, 'formplate/js/formplate.js'),
+    path.join($path.engine.component, 'injectplate/js/injectplate.js'),
+    path.join($path.engine.component, 'loaderplate/js/loaderplate.js'),
+    path.join($path.engine.component, 'menuplate/js/menuplate.js'),
+    path.join($path.engine.component, 'messageplate/js/messageplate.js'),
+    path.join($path.engine.component, 'modalplate/js/modalplate.js'),
+    path.join($path.engine.component, 'tabplate/js/tabplate.js'),
+    path.join($path.engine.jsSrc, 'tools.js'),
+    path.join($path.engine.jsSrc, 'overwrite.js')
 ];
 var $jsFilesEngineStart = [
-    $path.engine.jsSrc + 'core.js'
+    path.join($path.engine.jsSrc, 'core.js')
 ];
 var $jsFilesEngineTouch = [
-    $path.engine.jsSrc + 'fastclick.js'
+    path.join($path.engine.jsSrc, 'fastclick.js')
 ];
 var $project = {
-	sass: [$path.engine.sass + 'import.scss'],
+	sass: [path.join($path.engine.sass, 'import.scss')],
 	js: [],
-	watch: ['./project/sass/', './project/js/src']
+	watch: [$path.project.sass, $path.project.jsSrc]
 };
 
 // Setup console colours
@@ -114,16 +115,17 @@ var buildCSS = function() {
 			// SASS
 			if ($build.sass) {
 				for (var $i2 = 0, $len2 = $build.sass.length; $i2 < $len2; $i2++) {
-					if (checkExtension($build.sass[$i2], 'scss') || checkExtension($build.sass[$i2], 'css')) {
-						if ($project.sass.indexOf($path.project.sass + $build.sass[$i2]) == -1) {
-							$project.sass.push($path.project.sass + $build.sass[$i2]);
+					var $includeFile = path.join($path.project.sass, $build.sass[$i2]);
+					if (checkExtension($includeFile, 'scss') || checkExtension($includeFile, 'css')) {
+						if ($project.sass.indexOf($includeFile) == -1) {
+							$project.sass.push($includeFile);
 						}
 					}
 				}
 			}
 			for (var $i2 = 0, $len2 = $project.sass.length; $i2 < $len2; $i2++) {
 				var $data = fs.readFileSync($project.sass[$i2]).toString();
-				if ($project.sass[$i2] == ($path.engine.sass + 'import.scss')) {
+				if ($project.sass[$i2] == path.join($path.engine.sass, 'import.scss')) {
 					$fileData += $data.replace(new RegExp('@import "', 'g'), '@import "./engine/sass/');
 				} else if ($project.sass[$i2].indexOf('.scss') > -1) {
 					if ($project.sass[$i2].indexOf('component') > -1) {
@@ -144,7 +146,7 @@ var buildCSS = function() {
 						console.log(chalkError($error.message));
 					} else {
 						var $css = $result.css.toString();
-						fs.writeFile($path.project.css + $build.name + '.min.css', $css, function($error) {
+						fs.writeFile(path.join($path.project.css, $build.name + '.min.css'), $css, function($error) {
 							if ($error) {
 								console.log(chalkError($error));
 							} else {
@@ -161,14 +163,14 @@ var buildEngine = function() {
 	console.log(chalkTitle('Rebuilding the engine...'));
 	// Engine CSS
 	sass.render({
-		file: './engine/sass/styles.scss',
+		file: path.join('engine', 'sass', 'styles.scss'),
 		outputStyle: 'compressed'
 	}, function($error, $result) {
 		if ($error) {
 			console.log(chalkError($error.message));
 		} else {
 			var $css = $result.css.toString();
-			fs.writeFile($path.engine.css + 'styles.min.css', $css, function($error) {
+			fs.writeFile(path.join($path.engine.css, 'styles.min.css'), $css, function($error) {
 				if ($error) {
 					console.log(chalkError($error));
 				} else {
@@ -179,7 +181,7 @@ var buildEngine = function() {
 	});
 	// Engine scripts
 	var $engineScriptJS = uglify.minify($jsFilesEngineScripts, $optionsUglify);
-	fs.writeFile($path.engine.js + 'scripts.min.js', $engineScriptJS.code, function($error) {
+	fs.writeFile(path.join($path.engine.js, 'scripts.min.js'), $engineScriptJS.code, function($error) {
 		if ($error) {
 			console.log(chalkError($error));
 		} else {
@@ -188,7 +190,7 @@ var buildEngine = function() {
 	});
 	// Engine start
 	var $engineStartJS = uglify.minify($jsFilesEngineStart, $optionsUglify);
-	fs.writeFile('./start.js', $engineStartJS.code, function($error) {
+	fs.writeFile(path.join('start.js'), $engineStartJS.code, function($error) {
 		if ($error) {
 			console.log(chalkError($error));
 		} else {
@@ -197,7 +199,7 @@ var buildEngine = function() {
 	});
 	// Engine touch
 	var $engineTouchJS = uglify.minify($jsFilesEngineTouch, $optionsUglify);
-	fs.writeFile($path.engine.js + 'touch.min.js', $engineTouchJS.code, function($error) {
+	fs.writeFile(path.join($path.engine.js, 'touch.min.js'), $engineTouchJS.code, function($error) {
 		if ($error) {
 			console.log(chalkError($error));
 		} else {
@@ -213,15 +215,16 @@ var buildJS = function() {
 			var $build = $config.build[$i];
 			if ($build.js) {
 				for (var $i2 = 0, $len2 = $build.js.length; $i2 < $len2; $i2++) {
-					if (checkExtension($build.js[$i2], 'js')) {
-						if ($project.js.indexOf($path.project.js + $build.js[$i2]) == -1) {
-							$project.js.push($path.project.js + $build.js[$i2]);
+					var $includeFile = path.join($path.project.js, $build.js[$i2]);
+					if (checkExtension($includeFile, 'js')) {
+						if ($project.js.indexOf($includeFile) == -1) {
+							$project.js.push($includeFile);
 						}
 					}
 				}
 				if ($project.js.length > 0) {
 					var $projectJS = uglify.minify($project.js, $optionsUglify);
-					fs.writeFile($path.project.js + $build.name + '.min.js', $projectJS.code, function($error) {
+					fs.writeFile(path.join($path.project.js, $build.name + '.min.js'), $projectJS.code, function($error) {
 						if ($error) {
 							console.log(chalkError($error));
 						} else {
@@ -237,7 +240,7 @@ var checkExtension = function($file, $ext) {
 	return ($file.split('.').pop().toLowerCase() === $ext.toLowerCase()) ? true : false;
 };
 var readConfig = function() {
-	var $configFile = fs.readFileSync($path.project.root + 'config.json'); // Read config file first
+	var $configFile = fs.readFileSync(path.join($path.project.root, 'config.json')); // Read config file first
 	$config = JSON.parse($configFile);
 };
 var readComponents = function($callback) {
@@ -246,7 +249,7 @@ var readComponents = function($callback) {
 	var $readTotal = 0;
 
 	// Reset project styles and Javascript
-	$project.sass = [$path.engine.sass + 'import.scss'];
+	$project.sass = [path.join($path.engine.sass, 'import.scss')];
 	$project.js = [];
 
 	if ($config.build) {
@@ -261,7 +264,7 @@ var readComponents = function($callback) {
 			var $build = $config.build[$i];
 			if ($build.component) {
 				for (var $i2 = 0, $len2 = $build.component.length; $i2 < $len2; $i2++) {
-					fs.readFile($path.project.component + $build.component[$i2] + '/.bower.json', function($error, $data) {
+					fs.readFile(path.join($path.project.component, $build.component[$i2], '.bower.json'), function($error, $data) {
 						// The data
 						if ($error) {
 							console.log(chalkError($error));
@@ -269,7 +272,7 @@ var readComponents = function($callback) {
 							var $bower = JSON.parse($data);
 							if (typeof $bower.main == 'object') {
 								for (var $i3 = 0, $len3 = $bower.main.length; $i3 < $len3; $i3++) {
-									var $includeFile = $path.project.component + $bower.name + '/' + $bower.main[$i3];
+									var $includeFile = path.join($path.project.component, $bower.name, $bower.main[$i3]);
 									if ($project.sass.indexOf($includeFile) == -1 || $project.js.indexOf($includeFile) == -1) {
 										if (checkExtension($includeFile, 'css') || checkExtension($includeFile, 'scss')) {
 											$project.sass.push($includeFile);
@@ -279,7 +282,7 @@ var readComponents = function($callback) {
 									}
 								}
 							} else {
-								var $includeFile = $path.project.component + $bower.name + '/' + $bower.main;
+								var $includeFile = path.join($path.project.component, $bower.name, $bower.main);
 								if ($project.sass.indexOf($includeFile) == -1 || $project.js.indexOf($includeFile) == -1) {
 									if (checkExtension($includeFile, 'css') || checkExtension($includeFile, 'scss')) {
 										$project.sass.push($includeFile);
@@ -409,7 +412,7 @@ switch ($command) {
 				});
 				// Livereload
 				var reloadServer = livereload.createServer();
-				reloadServer.watch([$currentPath + '/project/js/', $currentPath + '/project/css/']);
+				reloadServer.watch([path.join($currentPath, 'project', 'js'), path.join($currentPath, 'project', 'css')]);
 			});
 		}
 		break;
