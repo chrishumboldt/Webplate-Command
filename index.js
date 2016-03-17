@@ -64,8 +64,6 @@ var $path = {
 	}
 };
 
-console.log($path);
-
 var $dirName = ($currentPath.indexOf('/') > -1) ? ($currentPath).substr($currentPath.lastIndexOf('/') + 1) : ($currentPath).substr($currentPath.lastIndexOf('\\') + 1);
 var $jsFilesEngineScripts = [
     path.join($path.engine.jsSrc, 'modernizr.js'),
@@ -218,11 +216,12 @@ var buildJS = function() {
 					var $includeFile = path.join($path.project.js, $build.js[$i2]);
 					if (checkExtension($includeFile, 'js')) {
 						if ($project.js.indexOf($includeFile) == -1) {
-							$project.js.push($includeFile);
+							$project.js[1000 + $i] = $includeFile;
 						}
 					}
 				}
 				if ($project.js.length > 0) {
+					console.log($project.js);
 					var $projectJS = uglify.minify($project.js, $optionsUglify);
 					fs.writeFile(path.join($path.project.js, $build.name + '.min.js'), $projectJS.code, function($error) {
 						if ($error) {
@@ -265,6 +264,8 @@ var readComponents = function($callback) {
 			if ($build.component) {
 				for (var $i2 = 0, $len2 = $build.component.length; $i2 < $len2; $i2++) {
 					fs.readFile(path.join($path.project.component, $build.component[$i2], '.bower.json'), function($error, $data) {
+						// Increment
+						$readCount++;
 						// The data
 						if ($error) {
 							console.log(chalkError($error));
@@ -275,9 +276,9 @@ var readComponents = function($callback) {
 									var $includeFile = path.join($path.project.component, $bower.name, $bower.main[$i3]);
 									if ($project.sass.indexOf($includeFile) == -1 || $project.js.indexOf($includeFile) == -1) {
 										if (checkExtension($includeFile, 'css') || checkExtension($includeFile, 'scss')) {
-											$project.sass.push($includeFile);
+											$project.sass[$readCount] = $includeFile;
 										} else if (checkExtension($includeFile, 'js')) {
-											$project.js.push($includeFile);
+											$project.js[$readCount] = $includeFile;
 										}
 									}
 								}
@@ -285,15 +286,14 @@ var readComponents = function($callback) {
 								var $includeFile = path.join($path.project.component, $bower.name, $bower.main);
 								if ($project.sass.indexOf($includeFile) == -1 || $project.js.indexOf($includeFile) == -1) {
 									if (checkExtension($includeFile, 'css') || checkExtension($includeFile, 'scss')) {
-										$project.sass.push($includeFile);
+										$project.sass[$readCount] = $includeFile;
 									} else if (checkExtension($includeFile, 'js')) {
-										$project.js.push($includeFile);
+										$project.js[$readCount] = $includeFile;
 									}
 								}
 							}
 						}
 						// Callback
-						$readCount++;
 						if ($callback !== false && $readCount === $readTotal) {
 							$callback();
 						}
@@ -303,6 +303,12 @@ var readComponents = function($callback) {
 		}
 	}
 };
+// var sortByKey = function($array, $key) {
+//     return array.sort(function($a, $b) {
+//         var $x = $a[$key]; var $y = $b[$key];
+//         return (($x < $y) ? -1 : (($x > $y) ? 1 : 0));
+//     });
+// }
 var webplateDirCheck = function() {
 	if ($dirName !== 'webplate') {
 		console.log('');
