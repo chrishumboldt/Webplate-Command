@@ -20,6 +20,7 @@ var chalk = require('chalk');
 var chokidar = require('chokidar');
 var fs = require('fs');
 var livereload = require('livereload');
+var path = require('path');
 var sass = require('node-sass');
 var shell = require('shelljs');
 var uglify = require('uglify-js');
@@ -46,21 +47,23 @@ var $optionsUglify = {
 };
 var $path = {
 	engine: {
-		root: './engine/',
-		component: './engine/component/',
-		css: './engine/css/',
-		js: './engine/js/',
-		jsSrc: './engine/js/src/',
-		sass: './engine/sass/'
+		root: path.join('.', 'engine'),
+		component: path.join('.', 'engine', 'component'),
+		css: path.join('.', 'engine', 'css'),
+		js: path.join('.', 'engine', 'js'),
+		jsSrc: path.join('.', 'engine', 'js', 'src'),
+		sass: path.join('.', 'engine', 'sass')
 	},
 	project: {
-		root: './project/',
-		component: './project/component/',
-		css: './project/css/',
-		js: './project/js/',
-		sass: './project/sass/',
+		root: path.join('.', 'project'),
+		component: path.join('.', 'project', 'component'),
+		css: path.join('.', 'project', 'css'),
+		js: path.join('.', 'project', 'js'),
+		sass: path.join('.', 'project', 'sass'),
 	}
 };
+
+console.log($path);
 
 var $dirName = ($currentPath.indexOf('/') > -1) ? ($currentPath).substr($currentPath.lastIndexOf('/') + 1) : ($currentPath).substr($currentPath.lastIndexOf('\\') + 1);
 var $jsFilesEngineScripts = [
