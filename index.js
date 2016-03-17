@@ -62,7 +62,7 @@ var $path = {
 	}
 };
 
-var $dirName = ($currentPath).substr($currentPath.lastIndexOf('/') + 1);
+var $dirName = ($currentPath.indexOf('/') > -1) ? ($currentPath).substr($currentPath.lastIndexOf('/') + 1) : ($currentPath).substr($currentPath.lastIndexOf('\\') + 1);
 var $jsFilesEngineScripts = [
     $path.engine.jsSrc + 'modernizr.js',
     $path.engine.jsSrc + 'velocity.js',
