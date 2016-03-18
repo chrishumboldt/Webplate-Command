@@ -60,7 +60,7 @@ var $path = {
         css: path.join('project', 'css'),
         js: path.join('project', 'js'),
         jsSrc: path.join('project', 'js', 'src'),
-        sass: path.join('project', 'sass'),
+        sass: path.join('project', 'css', 'sass'),
     }
 };
 
@@ -381,7 +381,7 @@ switch ($command) {
             readComponents(function() {
                 console.log(chalkTitle('Watching your project SASS and JS...'));
                 var watcher = chokidar.watch($project.watch, {
-                    ignored: /^\./,
+                    ignored: [/^\./, $path.project.sass],
                     persistent: true
                 });
                 watcher.on('change', function($path) {
@@ -397,7 +397,7 @@ switch ($command) {
                         }
                         setTimeout(function() {
                             $building = false;
-                        }, 500);
+                        }, 1000);
                     }
                 });
                 // Livereload
