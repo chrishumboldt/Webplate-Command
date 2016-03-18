@@ -155,6 +155,8 @@ var buildCSS = function() {
                 });
             }
         }
+    } else {
+        console.log(chalkCommand('CSS: ') + chalkAction('Build config...') + chalkCommand('none'));
     }
 };
 var buildEngine = function() {
@@ -232,6 +234,8 @@ var buildJS = function() {
                 }
             }
         }
+    } else {
+        console.log(chalkCommand('JS: ') + chalkAction('Build config...') + chalkCommand('none'));
     }
 };
 var checkExtension = function($file, $ext) {
