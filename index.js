@@ -56,11 +56,13 @@ var $path = {
     },
     project: {
         root: path.join('project'),
+        build: {
+            js: path.join('project', 'build', 'js'),
+            sass: path.join('project', 'build', 'sass')
+        },
         component: path.join('project', 'component'),
         css: path.join('project', 'css'),
-        js: path.join('project', 'js'),
-        jsSrc: path.join('project', 'js', 'src'),
-        sass: path.join('project', 'css', 'sass'),
+        js: path.join('project', 'js')
     }
 };
 
@@ -89,7 +91,7 @@ var $jsFilesEngineTouch = [
 var $project = {
     sass: [path.join($path.engine.sass, 'import.scss')],
     js: [],
-    watch: [$path.project.sass, $path.project.jsSrc]
+    watch: [$path.project.build.sass, $path.project.build.js]
 };
 
 // Setup console colours
@@ -104,7 +106,7 @@ var chalkWarning = chalk.yellow;
 
 // Functions
 var buildCSS = function() {
-    console.log(chalkTitle('Starting your CSS build...'));
+    console.log(chalkTitle('Building your CSS...'));
     // Project CSS
     if ($config.build) {
         for (var $i = 0, $len = $config.build.length; $i < $len; $i++) {
@@ -113,7 +115,7 @@ var buildCSS = function() {
             // SASS
             if ($build.sass) {
                 for (var $i2 = 0, $len2 = $build.sass.length; $i2 < $len2; $i2++) {
-                    var $includeFile = path.join($path.project.sass, $build.sass[$i2]);
+                    var $includeFile = path.join($path.project.build.sass, $build.sass[$i2]);
                     if (checkExtension($includeFile, 'scss') || checkExtension($includeFile, 'css')) {
                         if ($project.sass.indexOf($includeFile) == -1) {
                             $project.sass.push($includeFile);
@@ -208,7 +210,7 @@ var buildEngine = function() {
     });
 };
 var buildJS = function() {
-    console.log(chalkTitle('Starting your JS build...'));
+    console.log(chalkTitle('Building your JS...'));
     // Project scripts
     if ($config.build) {
         for (var $i = 0, $len = $config.build.length; $i < $len; $i++) {
@@ -224,7 +226,7 @@ var buildJS = function() {
                 }
                 if ($project.js.length > 0) {
                     var $projectJS = uglify.minify($project.js, $optionsUglify);
-                    fs.writeFile(path.join($path.project.js, $build.name + '.min.js'), $projectJS.code, function($error) {
+                    fs.writeFile(path.join($path.project.build.js, $build.name + '.min.js'), $projectJS.code, function($error) {
                         if ($error) {
                             console.log(chalkError($error));
                         } else {
@@ -379,27 +381,31 @@ switch ($command) {
     case 'watch':
         if (webplateDirCheck() === true) {
             readComponents(function() {
-                console.log(chalkTitle('Watching your project SASS and JS...'));
-                var watcher = chokidar.watch($project.watch, {
-                    ignored: [/^\./, $path.project.sass],
-                    persistent: true
-                });
-                watcher.on('change', function($path) {
-                    if ($building === false) {
-                        $building = true;
-                        console.log('');
-                        console.log(chalkAction($path) + chalkCommand('...updated'));
-                        if (checkExtension($path, 'scss')) {
-                            buildCSS();
+                if ($arguments[1] === 'passive') {
+                    console.log(chalkTitle('Watching your project CSS and JS...'));
+                } else {
+                    console.log(chalkTitle('Watching your project build SASS and JS...'));
+                    var watcher = chokidar.watch($project.watch, {
+                        ignored: /^\./,
+                        persistent: true
+                    });
+                    watcher.on('change', function($path) {
+                        if ($building === false) {
+                            $building = true;
+                            console.log('');
+                            console.log(chalkAction($path) + chalkCommand('...updated'));
+                            if (checkExtension($path, 'scss')) {
+                                buildCSS();
+                            }
+                            if (checkExtension($path, 'js')) {
+                                buildJS();
+                            }
+                            setTimeout(function() {
+                                $building = false;
+                            }, 1000);
                         }
-                        if (checkExtension($path, 'js')) {
-                            buildJS();
-                        }
-                        setTimeout(function() {
-                            $building = false;
-                        }, 1000);
-                    }
-                });
+                    });
+                }
                 // Livereload
                 var reloadServer = livereload.createServer();
                 reloadServer.watch([path.join($currentPath, 'project', 'js'), path.join($currentPath, 'project', 'css')]);
