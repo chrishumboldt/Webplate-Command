@@ -131,7 +131,7 @@ var buildCSS = function() {
                     if ($project.sass[$i2].indexOf('component') > -1) {
                         $fileData += $data.replace(new RegExp('@import "', 'g'), '@import "./project/component/');
                     } else {
-                        $fileData += $data.replace(new RegExp('@import "', 'g'), '@import "./project/sass/');
+                        $fileData += $data.replace(new RegExp('@import "', 'g'), '@import "./project/build/sass/');
                     }
                 } else {
                     $fileData += $data;
@@ -150,7 +150,7 @@ var buildCSS = function() {
                             if ($error) {
                                 console.log(chalkError($error));
                             } else {
-                                console.log(chalkCommand('CSS: ') + chalkAction('project/' + $build.name + '.min.css...') + chalkCommand('successful'));
+                                console.log(chalkCommand('CSS: ') + chalkAction('project/css/' + $build.name + '.min.css...') + chalkCommand('successful'));
                             }
                         });
                     }
