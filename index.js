@@ -217,7 +217,7 @@ var buildJS = function() {
             var $build = $config.build[$i];
             if ($build.js) {
                 for (var $i2 = 0, $len2 = $build.js.length; $i2 < $len2; $i2++) {
-                    var $includeFile = path.join($path.project.js, $build.js[$i2]);
+                    var $includeFile = path.join($path.project.build.js, $build.js[$i2]);
                     if (checkExtension($includeFile, 'js')) {
                         if ($project.js.indexOf($includeFile) == -1) {
                             $project.js.push($includeFile);
@@ -226,7 +226,7 @@ var buildJS = function() {
                 }
                 if ($project.js.length > 0) {
                     var $projectJS = uglify.minify($project.js, $optionsUglify);
-                    fs.writeFile(path.join($path.project.build.js, $build.name + '.min.js'), $projectJS.code, function($error) {
+                    fs.writeFile(path.join($path.project.js, $build.name + '.min.js'), $projectJS.code, function($error) {
                         if ($error) {
                             console.log(chalkError($error));
                         } else {
