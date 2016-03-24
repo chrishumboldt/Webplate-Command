@@ -37,9 +37,6 @@ switch ($command) {
 			case 'component':
 				// component.build();
 				break;
-			case 'ui':
-				// ui.build();
-				break;
 			default:
 				project.build.all();
 				break;
@@ -84,8 +81,8 @@ switch ($command) {
 		web.log(colour.number('1)') + colour.command(' build'));
 		web.log(colour.text('Build your project CSS and Javascript.'));
 		web.log('');
-		web.log(colour.number('2)') + colour.command(' build ') + colour.option('<css|js|engine|component|ui>'));
-		web.log(colour.text('Build your project CSS or Javascript, Webplate Engine files, Webplate component files or your Webplate UI files.'));
+		web.log(colour.number('2)') + colour.command(' build ') + colour.option('<css|js|engine|component>'));
+		web.log(colour.text('Build your project CSS or Javascript, Webplate Engine files or your Webplate component files.'));
 		web.log('');
 		web.log(colour.number('3)') + colour.command(' create ') + colour.option('<project_name> <version|tag|optional>'));
 		web.log(colour.text('Create a new project with a fresh copy of Webplate and a starter index.html file.'));
@@ -93,10 +90,13 @@ switch ($command) {
 		web.log(colour.number('4)') + colour.command(' component add ') + colour.option('<bower_component>'));
 		web.log(colour.text('Install a new Bower component of your choice. Bower is really awesome!'));
 		web.log('');
-		web.log(colour.number('5)') + colour.command(' download ') + colour.option('<version|tag|optional>'));
-		web.log(colour.text('Download a crisp new copy of Webplate in the current directory.'));
+		web.log(colour.number('5)') + colour.command(' component remove ') + colour.option('<bower_component>'));
+		web.log(colour.text('Remove a Bower component from your project.'));
 		web.log('');
-		web.log(colour.number('6)') + colour.command(' watch'));
+		web.log(colour.number('6)') + colour.command(' download ') + colour.option('<version|tag|optional>'));
+		web.log(colour.text('Download a crisp new copy of Webplate into the current directory.'));
+		web.log('');
+		web.log(colour.number('7)') + colour.command(' watch'));
 		web.log(colour.text('Run the project watcher to watch for file changes. Any change will rebuild your CSS and Javascript and perform a live reload (if installed).'));
 		web.log('');
 		break;
