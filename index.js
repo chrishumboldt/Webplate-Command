@@ -35,7 +35,7 @@ switch ($command) {
 				engine.build.all();
 				break;
 			case 'component':
-				// component.build();
+				component.build();
 				break;
 			default:
 				project.build.all();
