@@ -9,8 +9,10 @@
 'use strict';
 
 // Requires
+var create = require('./lib/create');
 var colour = require('./lib/log-colour');
 var component = require('./lib/component');
+var download = require('./lib/download');
 var engine = require('./lib/engine');
 var project = require('./lib/project');
 var watch = require('./lib/watch');
@@ -61,9 +63,30 @@ switch ($command) {
 		break;
 
 	case 'create':
+
+		switch($arguments[1]) {
+			case 'project':
+				create.project($arguments[2], $arguments[3]);
+				break
+			case 'component':
+				create.component();
+				break;
+			default:
+				web.log('');
+				web.log(colour.title('What would you like to create?'));
+				web.log('');
+				web.log(colour.number('1)') + colour.command(' component') + colour.option('<component_name>'));
+				web.log(colour.text('Create a new webplate component. This can be a standard component or new UI Kit.'));
+				web.log('');
+				web.log(colour.number('2)') + colour.command(' project ') + colour.option('<project_name> <version|tag|optional>'));
+				web.log(colour.text('Create a new Webplate project. You know you want to!'));
+				web.log(colour.text('Please note that the currect command line tool you are using only works with Webplate 4+.'));
+				web.log('');
+		}
 		break;
 
 	case 'download':
+		download.webplate($arguments[1]);
 		break;
 
 	case 'watch':
@@ -84,8 +107,8 @@ switch ($command) {
 		web.log(colour.number('2)') + colour.command(' build ') + colour.option('<css|js|engine|component>'));
 		web.log(colour.text('Build your project CSS or Javascript, Webplate Engine files or your Webplate component files.'));
 		web.log('');
-		web.log(colour.number('3)') + colour.command(' create ') + colour.option('<project_name> <version|tag|optional>'));
-		web.log(colour.text('Create a new project with a fresh copy of Webplate and a starter index.html file.'));
+		web.log(colour.number('3)') + colour.command(' create ') + colour.option('<project_name|component_name> <version|tag|optional>'));
+		web.log(colour.text('Create a new project with a fresh copy of Webplate and a starter index.html file or a new Webplate component.'));
 		web.log('');
 		web.log(colour.number('4)') + colour.command(' component add ') + colour.option('<bower_component>'));
 		web.log(colour.text('Install a new Bower component of your choice. Bower is really awesome!'));
