@@ -9,12 +9,14 @@
 'use strict';
 
 // Requires
+var cache = require('./lib/cache');
+var colour = require('./lib/colour');
 var create = require('./lib/create');
-var colour = require('./lib/log-colour');
 var component = require('./lib/component');
 var download = require('./lib/download');
 var engine = require('./lib/engine');
 var project = require('./lib/project');
+var update = require('./lib/update');
 var watch = require('./lib/watch');
 var web = require('webplate-tools');
 
@@ -24,13 +26,14 @@ var $command = $arguments[0];
 
 // Execute
 switch ($command) {
-
 	case 'build':
 		switch ($arguments[1]) {
 			case 'css':
+				cache.buildUpdate();
 				project.build.css();
 				break;
 			case 'js':
+				cache.buildUpdate();
 				project.build.js();
 				break;
 			case 'engine':
@@ -40,7 +43,33 @@ switch ($command) {
 				component.build();
 				break;
 			default:
+				cache.buildUpdate();
 				project.build.all();
+				break;
+		}
+		break;
+
+	case 'cache':
+		switch ($arguments[1]) {
+			case 'bust':
+				web.log(colour.title('Cache busting in progress...'));
+				cache.bust();
+				break;
+
+			case 'remove':
+				cache.remove();
+				break;
+
+			default:
+				web.log('');
+				web.log(colour.title('What would you like to do with the cache?'));
+				web.log('');
+				web.log(colour.command('bust '));
+				web.log(colour.text('Add or update the cache busting timestamp in your project config file.'));
+				web.log('');
+				web.log(colour.command('remove '));
+				web.log(colour.text('Remove any cache busting timestamps from your project config file.'));
+				web.log('');
 				break;
 		}
 		break;
@@ -55,8 +84,13 @@ switch ($command) {
 				break;
 			default:
 				web.log('');
-				web.log(colour.title('What Bower component do you want to install?'));
-				web.log(colour.command('webplate component add ') + colour.option('<bower_component>'));
+				web.log(colour.title('What Bower component do you want to manage?'));
+				web.log('');
+				web.log(colour.command('add ') + colour.name('bower_component'));
+				web.log(colour.text('Add a Bower component.'));
+				web.log('');
+				web.log(colour.command('remove ') + colour.name('bower_component'));
+				web.log(colour.text('Remove a Bower component.'));
 				web.log('');
 				break;
 		}
@@ -64,29 +98,34 @@ switch ($command) {
 
 	case 'create':
 
-		switch($arguments[1]) {
+		switch ($arguments[1]) {
 			case 'project':
 				create.project($arguments[2], $arguments[3]);
-				break
+				break;
 			case 'component':
-				create.component();
+				create.component($arguments[2]);
 				break;
 			default:
 				web.log('');
 				web.log(colour.title('What would you like to create?'));
 				web.log('');
-				web.log(colour.number('1)') + colour.command(' component') + colour.option('<component_name>'));
+				web.log(colour.command('component ') + colour.name('name'));
 				web.log(colour.text('Create a new webplate component. This can be a standard component or new UI Kit.'));
 				web.log('');
-				web.log(colour.number('2)') + colour.command(' project ') + colour.option('<project_name> <version|tag|optional>'));
+				web.log(colour.command('project ') + colour.name('name') + colour.option(' <version|tag|optional>'));
 				web.log(colour.text('Create a new Webplate project. You know you want to!'));
 				web.log(colour.text('Please note that the currect command line tool you are using only works with Webplate 4+.'));
 				web.log('');
+				break;
 		}
 		break;
 
 	case 'download':
 		download.webplate($arguments[1]);
+		break;
+
+	case 'update':
+		update.engine($arguments[1]);
 		break;
 
 	case 'watch':
@@ -101,26 +140,31 @@ switch ($command) {
 		web.log('');
 		web.log(colour.title('So what command do you want run?'));
 		web.log('');
-		web.log(colour.number('1)') + colour.command(' build'));
-		web.log(colour.text('Build your project CSS and Javascript.'));
+		web.log(colour.command('build ') + colour.option('<css|js|engine|component|optional>'));
+		web.log(colour.text('Build your project CSS, Javascript, Webplate Engine files or your Webplate component files.'));
+		web.log(colour.text('If no parameter is provided then just the project CSS and Javascript will be built.'));
 		web.log('');
-		web.log(colour.number('2)') + colour.command(' build ') + colour.option('<css|js|engine|component>'));
-		web.log(colour.text('Build your project CSS or Javascript, Webplate Engine files or your Webplate component files.'));
+		web.log(colour.command('cache ') + colour.option('<bust|remove>'));
+		web.log(colour.text('Add, update or remove the global cache busting option from your Webplate project.'));
 		web.log('');
-		web.log(colour.number('3)') + colour.command(' create ') + colour.option('<project_name|component_name> <version|tag|optional>'));
-		web.log(colour.text('Create a new project with a fresh copy of Webplate and a starter index.html file or a new Webplate component.'));
+		web.log(colour.command('create ') + colour.option('<project|component> ') + colour.name('name') + colour.option(' <version|tag|optional>'));
+		web.log(colour.text('Create a new Webplate project or component, including all required files.'));
 		web.log('');
-		web.log(colour.number('4)') + colour.command(' component add ') + colour.option('<bower_component>'));
-		web.log(colour.text('Install a new Bower component of your choice. Bower is really awesome!'));
+		web.log(colour.command('component ') + colour.option('<add|remove> ') + colour.name('bower_component'));
+		web.log(colour.text('Add or remove a Bower component of your choice. Bower is really awesome!'));
 		web.log('');
-		web.log(colour.number('5)') + colour.command(' component remove ') + colour.option('<bower_component>'));
-		web.log(colour.text('Remove a Bower component from your project.'));
-		web.log('');
-		web.log(colour.number('6)') + colour.command(' download ') + colour.option('<version|tag|optional>'));
+		web.log(colour.command('download ') + colour.option('<version|tag|optional>'));
 		web.log(colour.text('Download a crisp new copy of Webplate into the current directory.'));
+		web.log(colour.text('If no parameter is provided then the latest version of Webplate will be used.'));
 		web.log('');
-		web.log(colour.number('7)') + colour.command(' watch'));
-		web.log(colour.text('Run the project watcher to watch for file changes. Any change will rebuild your CSS and Javascript and perform a live reload (if installed).'));
+		web.log(colour.command('update ') + colour.option('<version|tag|optional>'));
+		web.log(colour.text('Update the current copy of the Webplate engine and start.js file. This is not a migration tool.'));
+		web.log(colour.text('This will also create a backup folder just in case.'));
+		web.log(colour.text('If no parameter is provided then the latest version of Webplate will be used.'));
+		web.log('');
+		web.log(colour.command('watch'));
+		web.log(colour.text('Run the project watcher to watch for file changes.'));
+		web.log(colour.text('Any change will rebuild your CSS and Javascript and perform a live reload (if installed).'));
 		web.log('');
 		break;
 }

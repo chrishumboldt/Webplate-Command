@@ -30,6 +30,7 @@
     "chalk": "^1.1.1",
     "chokidar": "^1.4.3",
     "dir-at-st": "0.0.8",
+    "injectplate": "^2.1.0",
     "livereload": "^0.4.1",
     "node-sass": "^3.4.2",
     "shelljs": "^0.6.0",
