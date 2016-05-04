@@ -29,11 +29,9 @@ switch ($command) {
 	case 'build':
 		switch ($arguments[1]) {
 			case 'css':
-				cache.buildUpdate();
 				project.build.css();
 				break;
 			case 'js':
-				cache.buildUpdate();
 				project.build.js();
 				break;
 			case 'engine':
@@ -43,7 +41,6 @@ switch ($command) {
 				component.build();
 				break;
 			default:
-				cache.buildUpdate();
 				project.build.all();
 				break;
 		}
