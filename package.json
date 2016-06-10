@@ -30,11 +30,13 @@
     "chalk": "^1.1.1",
     "chokidar": "^1.4.3",
     "dir-at-st": "0.0.8",
+    "front-matter": "^2.1.0",
     "injectplate": "^2.1.0",
     "livereload": "^0.4.1",
     "node-sass": "^3.4.2",
     "shelljs": "^0.6.0",
     "uglify-js": "^2.6.2",
-    "webplate-tools": "0.0.8"
+    "webplate-tools": "0.0.8",
+    "yaml-to-json": "^0.3.0"
   }
 }

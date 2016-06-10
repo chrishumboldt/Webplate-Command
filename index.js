@@ -16,6 +16,7 @@ var component = require('./lib/component');
 var download = require('./lib/download');
 var engine = require('./lib/engine');
 var project = require('./lib/project');
+var staticSite = require('./lib/static-site');
 var update = require('./lib/update');
 var watch = require('./lib/watch');
 var web = require('webplate-tools');
@@ -39,6 +40,9 @@ switch ($command) {
 				break;
 			case 'component':
 				component.build();
+				break;
+			case 'static':
+				staticSite.build();
 				break;
 			default:
 				project.build.all();
