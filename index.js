@@ -2,9 +2,9 @@
 
 /**
  * File: index.js
- * Type: Javascript index file
+ * Type: Node.js module file
  * Author: Chris Humboldt
- */
+**/
 
 'use strict';
 
@@ -22,13 +22,13 @@ var watch = require('./lib/watch');
 var web = require('webplate-tools');
 
 // Variables
-var $arguments = process.argv.slice(2);
-var $command = $arguments[0];
+var args = process.argv.slice(2);
+var command = args[0];
 
 // Execute
-switch ($command) {
+switch (command) {
 	case 'build':
-		switch ($arguments[1]) {
+		switch (args[1]) {
 			case 'css':
 				project.build.css();
 				break;
@@ -51,7 +51,7 @@ switch ($command) {
 		break;
 
 	case 'cache':
-		switch ($arguments[1]) {
+		switch (args[1]) {
 			case 'bust':
 				web.log(colour.title('Cache busting in progress...'));
 				cache.bust();
@@ -76,12 +76,12 @@ switch ($command) {
 		break;
 
 	case 'component':
-		switch ($arguments[1]) {
+		switch (args[1]) {
 			case 'add':
-				component.add($arguments[2]);
+				component.add(args[2]);
 				break;
 			case 'remove':
-				component.remove($arguments[2]);
+				component.remove(args[2]);
 				break;
 			default:
 				web.log('');
@@ -99,12 +99,12 @@ switch ($command) {
 
 	case 'create':
 
-		switch ($arguments[1]) {
+		switch (args[1]) {
 			case 'project':
-				create.project($arguments[2], $arguments[3]);
+				create.project(args[2], args[3]);
 				break;
 			case 'component':
-				create.component($arguments[2]);
+				create.component(args[2]);
 				break;
 			default:
 				web.log('');
@@ -122,18 +122,24 @@ switch ($command) {
 		break;
 
 	case 'download':
-		download.webplate($arguments[1]);
+		download.webplate(args[1]);
 		break;
 
 	case 'update':
-		update.engine($arguments[1]);
+		update.engine(args[1]);
 		break;
 
 	case 'watch':
-		if ($arguments[1] === 'passive') {
-			watch.passive();
-		} else {
-			watch.project();
+		switch (args[1]) {
+			case 'component':
+				watch.component();
+				break;
+			case 'passive':
+				watch.passive();
+				break;
+			default:
+				watch.project();
+				break;
 		}
 		break;
 
@@ -163,8 +169,11 @@ switch ($command) {
 		web.log(colour.text('This will also create a backup folder just in case.'));
 		web.log(colour.text('If no parameter is provided then the latest version of Webplate will be used.'));
 		web.log('');
-		web.log(colour.command('watch'));
-		web.log(colour.text('Run the project watcher to watch for file changes.'));
+		web.log(colour.command('watch') + colour.option(' <component|passive|optional>'));
+		web.log(colour.text('Run the watcher to watch for file changes.'));
+		web.log(colour.text('If the option is set to component then component CSS and JS will be watched.'));
+		web.log(colour.text('If the option is set to passive then only project CSS and JS will be watched.'));
+		web.log(colour.text('If no parameter is provided then the project and engine CSS and JS files will be watched.'));
 		web.log(colour.text('Any change will rebuild your CSS and Javascript and perform a live reload (if installed).'));
 		web.log('');
 		break;
