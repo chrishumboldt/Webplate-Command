@@ -29,9 +29,10 @@
   "dependencies": {
     "chalk": "^1.1.1",
     "chokidar": "^1.4.3",
+    "coffee-script": "^1.11.1",
     "dir-at-st": "0.0.8",
     "front-matter": "^2.1.0",
-    "injectplate": "^2.1.0",
+    "injectplate": "^3.0.0",
     "livereload": "^0.4.1",
     "node-sass": "^3.4.2",
     "shelljs": "^0.6.0",
