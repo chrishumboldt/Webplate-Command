@@ -19,7 +19,7 @@ var project = require('./lib/project');
 var staticSite = require('./lib/static-site');
 var update = require('./lib/update');
 var watch = require('./lib/watch');
-var Web = require('webplate-tools');
+var Web = require('rocket-tools');
 
 // Variables
 var args = process.argv.slice(2);
