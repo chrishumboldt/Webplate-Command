@@ -1,2 +1,2 @@
-# Webplate-Command
-The new Webplate command line tool.
+# Rocket Command
+The new Rocket command line tool.

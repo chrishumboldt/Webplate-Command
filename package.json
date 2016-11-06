@@ -1,17 +1,17 @@
 {
-  "name": "webplate-command",
-  "version": "0.8.0",
-  "description": "The Webplate command line utility.",
+  "name": "rocket-command",
+  "version": "0.9.0",
+  "description": "The Rocket command line tool.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/chrishumboldt/webplate-command.git"
+    "url": "git+https://github.com/chrishumboldt/rocket-command.git"
   },
   "keywords": [
-    "Webplate",
+    "Rocket",
     "Command Line",
     "Build",
     "SASS",
@@ -20,11 +20,11 @@
   "author": "Chris Humboldt (http://chrishumboldt.com)",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/chrishumboldt/webplate-command/issues"
+    "url": "https://github.com/chrishumboldt/rocket-command/issues"
   },
-  "homepage": "https://github.com/chrishumboldt/webplate-command#readme",
+  "homepage": "https://github.com/chrishumboldt/rocket-command#readme",
   "bin": {
-    "webplate": "index.js"
+    "rocket": "index.js"
   },
   "dependencies": {
     "chalk": "^1.1.1",
