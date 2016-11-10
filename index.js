@@ -128,7 +128,7 @@ switch (command) {
 		break;
 
 	case 'download':
-		download.Rocket(args[1]);
+		download.rocket(args[1]);
 		break;
 
 	case 'update':
