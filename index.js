@@ -85,13 +85,13 @@ switch (command) {
 				break;
 			default:
 				Rocket.log('');
-				Rocket.log(colour.title('What Bower component do you want to manage?'));
+				Rocket.log(colour.title('What NPM package do you want to manage?'));
 				Rocket.log('');
-				Rocket.log(colour.command('add ') + colour.name('bower_component'));
-				Rocket.log(colour.text('Add a Bower component.'));
+				Rocket.log(colour.command('add ') + colour.name('package_name'));
+				Rocket.log(colour.text('Add an NPM package.'));
 				Rocket.log('');
-				Rocket.log(colour.command('remove ') + colour.name('bower_component'));
-				Rocket.log(colour.text('Remove a Bower component.'));
+				Rocket.log(colour.command('remove ') + colour.name('package_name'));
+				Rocket.log(colour.text('Remove an NPM package.'));
 				Rocket.log('');
 				break;
 		}
@@ -165,8 +165,9 @@ switch (command) {
 		Rocket.log(colour.text('When creating a build instance, then ') + colour.name('name') + colour.text(' option is not required.'));
 		Rocket.log(colour.text('You will need to be in the Rocket directory for the build instance to work.'));
 		Rocket.log('');
-		Rocket.log(colour.command('component ') + colour.option('<add|remove> ') + colour.name('bower_component'));
-		Rocket.log(colour.text('Add or remove a Bower component of your choice. Bower is really awesome!'));
+		Rocket.log(colour.command('component ') + colour.option('<add|remove> ') + colour.name('package_name'));
+		Rocket.log(colour.text('Add or remove an NPM package of your choice. NPM is awesome!'));
+		Rocket.log(colour.text('Rocket sees all NPM packages as front-end components.'));
 		Rocket.log('');
 		Rocket.log(colour.command('download ') + colour.option('<version|tag|optional>'));
 		Rocket.log(colour.text('Download a crisp new copy of Rocket into the current directory.'));
