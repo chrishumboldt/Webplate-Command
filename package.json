@@ -1,6 +1,6 @@
 {
   "name": "rocket-command",
-  "version": "0.9.7",
+  "version": "0.9.8",
   "description": "The Rocket command line tool.",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/chrishumboldt/rocket-command.git"
+    "url": "git+https://github.com/chrishumboldt/Rocket-Command.git"
   },
   "keywords": [
     "Rocket",
@@ -20,9 +20,9 @@
   "author": "Chris Humboldt (http://chrishumboldt.com)",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/chrishumboldt/rocket-command/issues"
+    "url": "https://github.com/chrishumboldt/Rocket-Command/issues"
   },
-  "homepage": "https://github.com/chrishumboldt/rocket-command#readme",
+  "homepage": "https://github.com/chrishumboldt/Rocket-Command#readme",
   "bin": {
     "rocket": "index.js"
   },
