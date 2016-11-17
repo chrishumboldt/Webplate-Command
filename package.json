@@ -35,7 +35,7 @@
     "injectplate": "^3.0.0",
     "livereload": "^0.4.1",
     "node-sass": "^3.4.2",
-    "rocket-tools": "^1.3.2",
+    "rocket-tools": "^1.6.0",
     "shelljs": "^0.6.0",
     "uglify-js": "^2.6.2",
     "yaml-to-json": "^0.3.0"
