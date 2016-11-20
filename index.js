@@ -80,7 +80,7 @@ switch (command) {
 				create.project(args[2], args[3]);
 				break;
 			case 'module':
-				create.module(args[2]);
+				create.rcModule(args[2]);
 				break;
 			default:
 				Rocket.log('');
@@ -132,14 +132,11 @@ switch (command) {
 
 	case 'watch':
 		switch (args[1]) {
-			case 'component':
-				watch.component();
-				break;
 			case 'passive':
 				watch.passive();
 				break;
 			default:
-				watch.project();
+				watch.build();
 				break;
 		}
 		break;
