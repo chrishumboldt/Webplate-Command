@@ -30,16 +30,16 @@ switch (command) {
 	case 'build':
 		switch (args[1]) {
 			case 'css':
-				build.css(true);
+				build.init('css');
 				break;
 			case 'js':
-				build.js(true);
+				build.init('js');
 				break;
 			case 'engine':
 				engine.build.all();
 				break;
 			default:
-				build.all(true);
+				build.init('all');
 				break;
 		}
 		break;
