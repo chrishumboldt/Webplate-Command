@@ -1,8 +1,6 @@
 #!/usr/bin/env node
 
 /**
- * File: index.js
- * Type: Node.js module file
  * Author: Chris Humboldt
 **/
 
