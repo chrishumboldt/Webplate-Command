@@ -1,6 +1,6 @@
 {
   "name": "rocket-command",
-  "version": "0.9.10",
+  "version": "0.9.11",
   "description": "The Rocket command line tool.",
   "main": "index.js",
   "scripts": {
