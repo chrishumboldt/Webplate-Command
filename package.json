@@ -1,6 +1,6 @@
 {
   "name": "rocket-command",
-  "version": "0.9.8",
+  "version": "0.9.12",
   "description": "The Rocket command line tool.",
   "main": "index.js",
   "scripts": {
@@ -30,14 +30,12 @@
     "chalk": "^1.1.1",
     "chokidar": "^1.4.3",
     "coffee-script": "^1.11.1",
+    "cssmin": "^0.4.3",
     "dir-at-st": "0.0.8",
-    "front-matter": "^2.1.0",
-    "injectplate": "^3.0.0",
     "livereload": "^0.4.1",
     "node-sass": "^3.4.2",
     "rocket-tools": "^1.6.0",
     "shelljs": "^0.6.0",
-    "uglify-js": "^2.6.2",
-    "yaml-to-json": "^0.3.0"
+    "uglify-js": "^2.6.2"
   }
 }
