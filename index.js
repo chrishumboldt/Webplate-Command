@@ -1,26 +1,26 @@
 #!/usr/bin/env node
 
-/**
- * Author: Chris Humboldt
-**/
+/*
+Author: Chris Humboldt
+*/
 
 'use strict';
 
 // Requires
-var build = require('./lib/build');
-var cache = require('./lib/cache');
-var colour = require('./lib/colour');
-var create = require('./lib/create');
-var download = require('./lib/download');
-var engine = require('./lib/engine');
-var message = require('./lib/message');
-var Rocket = require('rocket-tools');
-var update = require('./lib/update');
-var watch = require('./lib/watch');
+const build = require('./lib/build');
+const cache = require('./lib/cache');
+const colour = require('./lib/colour');
+const create = require('./lib/create');
+const download = require('./lib/download');
+const engine = require('./lib/engine');
+const message = require('./lib/message');
+const Rocket = require('rocket-tools');
+const update = require('./lib/update');
+const watch = require('./lib/watch');
 
 // Variables
-var args = process.argv.slice(2);
-var command = args[0];
+const args = process.argv.slice(2);
+const command = args[0];
 
 // Execute
 switch (command) {
