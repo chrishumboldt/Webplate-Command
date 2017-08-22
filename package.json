@@ -38,6 +38,7 @@
     "livereload": "^0.6.0",
     "node-sass": "^4.5.0",
     "rocket-tools": "^1.13.0",
+    "rollup": "^0.48.2",
     "shelljs": "^0.7.6"
   }
 }
