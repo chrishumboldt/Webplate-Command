@@ -17,10 +17,17 @@
     "JS"
   ],
   "author": "Chris Humboldt <chrismodem@gmail.com>",
-  "license": "ISC",
+  "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/chrishumboldt/Rocket-Command/issues"
   },
   "homepage": "https://github.com/chrishumboldt/Rocket-Command#readme",
-  "license": "Apache-2.0",
+  "dependencies": {
+    "babel-core": "^6.26.3",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "chalk": "^2.4.1",
+    "rocket-tools": "^1.16.3"
+  }
 }
